@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Set karakter encoding dan viewport agar responsif di semua perangkat -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Happy Birthday</title>
+
+    <!-- Link ke file CSS eksternal -->
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      /* Mengimpor font 'Poppins' dari Google Fonts */
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+      /* Mengatur margin, padding, font, dan properti layout */
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: "Poppins", sans-serif;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+
+      body {
+        overflow: hidden;
+        height: 100vh;
+        width: 100%;
+      }
+
+      /* Mengatur layout dan style dari tampilan utama (preloader) */
+      .front {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-image: url("../desktop.jpg");
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #ce8e8e;
+      }
+
+      /* Ganti background image untuk tampilan mobile */
+      @media (max-width: 768px) {
+        .front {
+          background-image: url("/mobile.jpg");
+        }
+      }
+
+      /* Style untuk teks info di tampilan preloader */
+      .front .info {
+        padding: 20px 15px;
+        font-size: 4.5rem;
+        font-weight: bolder;
+        text-align: center;
+      }
+
+      /* Style untuk countdown yang berfungsi sebagai penghitung waktu mundur */
+      .front .countdown {
+        position: relative;
+        font-size: 5.5rem;
+        padding: 20px 15px;
+      }
+
+      .front .countdown h1 {
+        display: none;
+        opacity: 0;
+      }
+
+      /* Loader progress bar untuk menandai countdown */
+      .front .loader {
+        position: relative;
+        margin-top: 100px;
+        width: 250px;
+        height: 10px;
+        border: 1px solid #ce8e8e;
+        border-radius: 20px;
+        overflow: hidden;
+      }
+
+      .front .loader .fill {
+        position: absolute;
+        height: 100%;
+        width: 0;
+        background: #ce8e8e;
+        border-radius: 20px;
+        animation: animate 10s linear forwards;
+      }
+
+      /* Animasi untuk mengisi loader secara bertahap */
+      @keyframes animate {
+        0% {
+          width: 0;
+        }
+        100% {
+          width: 100%;
+        }
+      }
+
+      /* Tampilan halaman setelah countdown selesai */
+      .birthday {
+        position: fixed;
+        top: 0;
+        left: 120%;
+        height: 100%;
+        width: 100%;
+        background-color: #f7c6d9;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        color: #fff;
+      }
+      /* Pilih salah satu warna berikut untuk background-color */
+      /* background-color: #f7c6d9;  Soft Pink */
+      /* background-color: #f9aa8f;  Peach */
+      /* background-color: #a8d8ea;  Pastel Blue */
+      /* background-color: #a3e7d8;  Mint Green */
+      /* background-color: #c5a3e7;  Lavender */
+
+      .birthday h1:nth-child(1) {
+        font-size: 4.3rem;
+        margin-left: 150%;
+      }
+
+      .birthday h1.year {
+        font-size: 12.3rem;
+        margin-top: 80%;
+      }
+
+      /* Elemen kembang api sebagai efek visual */
+      .firework {
+        position: absolute;
+        z-index: 999;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 0.5vmin;
+        aspect-ratio: 1;
+        background: transparent;
+        background-size: 0.5vmin 0.5vmin;
+        background-repeat: no-repeat;
+        animation: firework 1s infinite;
+        animation-delay: 14s;
+      }
+
+      /* Animasi untuk kembang api */
+      @keyframes firework {
+        0% {
+          transform: translate(-50%, 60vh);
+          width: 0.5vmin;
+          opacity: 1;
+        }
+        50% {
+          width: 0.5vmin;
+          opacity: 1;
+        }
+        100% {
+          width: 45vmin;
+          opacity: 0;
+        }
+      }
+
+      /* Responsivitas untuk tampilan mobile */
+      @media only screen and (max-width: 600px) {
+        .front .info {
+          font-size: 2rem;
+        }
+
+        .front .countdown {
+          font-size: 3rem;
+        }
+
+        .front .loader {
+          margin-top: 50px;
+          width: 200px;
+          height: 8px;
+        }
+
+        .birthday h1:nth-child(1) {
+          font-size: 2rem;
+          margin-left: 120%;
+        }
+
+        .birthday h1.year {
+          font-size: 6rem;
+          margin-top: 50%;
+        }
+      }
+      /* Style untuk tombol aksi */
+      .buttons {
+        display: flex;
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .btn {
+        padding: 15px 30px;
+        font-size: 1.5rem;
+        color: #fff;
+        background-color: #f7c6d9;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+      }
+
+      /* Hover effect pada tombol */
+      .btn:hover {
+        transform: scale(1.05);
+        background-color: #ce8e8e6d;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Div untuk tampilan preloader yang menunjukkan hitungan mundur -->
+    <div class="front">
+      <p class="info">Are You Ready?</p>
+      <div class="countdown">
+        <h1 class="three">3</h1>
+        <h1 class="two">2</h1>
+        <h1 class="one">1</h1>
+      </div>
+      <div class="loader">
+        <div class="fill"></div>
+      </div>
+    </div>
+
+    <!-- Div untuk tampilan setelah countdown selesai -->
+    <div class="birthday">
+      <h1 class="greeting">🎂🎉</h1>
+      <h1 class="greeting">Happy Birthday</h1>
+      <h1 class="year"></h1>
+      <div class="buttons">
+        <button class="btn" onclick="location.href='Halaman1.html'">
+          Next
+        </button>
+        <!-- <button class="btn" onclick="location.href='Flowers.html'">
+          Surprise
+        </button> -->
+      </div>
+      <!-- Beberapa elemen kembang api -->
+      <div class="firework"></div>
+      <div class="firework"></div>
+      <div class="firework"></div>
+      <div class="firework"></div>
+      <div class="firework"></div>
+      <div class="firework"></div>
+      <div class="firework"></div>
+      <div class="firework"></div>
+      <div class="firework"></div>
+      <div class="firework"></div>
+    </div>
+
+    <!-- Mengimpor library GSAP untuk animasi -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"
+      integrity="sha512-f8mwTB+Bs8a5c46DEm7HQLcJuHMBaH/UFlcgyetMqqkvTcYg4g5VXsYR71b3qC82lZytjNYvBj2pf0VekA9/FQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"></script>
+
+    <script>
+      // Fungsi yang dijalankan setelah halaman dimuat untuk menjalankan animasi preloader
+      window.onload = () => {
+        gsap.to(".info", {
+          opacity: 0,
+          display: "none",
+          duration: 1,
+          delay: 6,
+        });
+
+        // Animasi countdown dari 3, 2, 1
+        gsap.to("h1.three", {
+          opacity: 1,
+          display: "block",
+          duration: 0.5,
+          delay: 7,
+        });
+        gsap.to("h1.three", {
+          opacity: 0,
+          display: "none",
+          duration: 0.5,
+          delay: 7.5,
+        });
+
+        gsap.to("h1.two", {
+          opacity: 1,
+          display: "block",
+          duration: 0.5,
+          delay: 8,
+        });
+        gsap.to("h1.two", {
+          opacity: 0,
+          display: "none",
+          duration: 0.5,
+          delay: 8.5,
+        });
+
+        gsap.to("h1.one", {
+          opacity: 1,
+          display: "block",
+          duration: 0.5,
+          delay: 9,
+        });
+        gsap.to("h1.one", {
+          opacity: 0,
+          display: "none",
+          duration: 0.5,
+          delay: 9.5,
+        });
+
+        // Mengganti ke halaman "birthday" setelah countdown selesai
+        gsap.to(".front", {
+          left: "-120%",
+          duration: 1,
+          delay: 12,
+        });
+        gsap.to(".birthday", {
+          left: "0%",
+          duration: 1,
+          delay: 10,
+        });
+        gsap.fromTo(
+          "h1.greeting",
+          { marginLeft: "150%" },
+          { marginLeft: "0%", duration: 1, delay: 10.5 }
+        );
+        gsap.fromTo(
+          "h1.year",
+          { marginTop: "80%" },
+          { marginTop: "0%", duration: 1, delay: 11 }
+        );
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet" />
+
+    <style>
+      body {
+        font-family: "Pacifico", cursive; /* Use Pacifico font */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-image: url("../desktop\ view.png"); /* Gambar untuk desktop */
+        background-size: cover; /* Memastikan gambar menutupi seluruh area */
+        background-repeat: no-repeat; /* Tidak mengulang gambar */
+        background-position: center; /* Menempatkan gambar di tengah */
+        background-attachment: fixed; /* Membuat background tidak ikut scroll */
+        padding: 20px;
+        overflow-y: auto;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          background-image: url("../mobile\ view.png"); /* Gambar untuk mobile */
+          padding: 10px; /* Sesuaikan padding untuk tampilan mobile */
+        }
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .typing-text {
+        font-size: 20px;
+        max-width: 600px; /* Set a max-width for better control */
+        width: 100%; /* Allow the container to be responsive */
+        white-space: normal;
+        word-break: break-word;
+        text-align: center;
+        padding: 10px; /* Add padding for spacing */
+        overflow-wrap: break-word; /* Ensure long words break properly */
+      }
+
+      @media (max-width: 600px) {
+        .typing-text {
+          font-size: 18px;
+        }
+      }
+
+      /* Sembunyikan audio dari tampilan */
+      audio {
+        display: none; /* Menyembunyikan elemen audio dari tampilan */
+      }
+
+      /* Gaya tombol WhatsApp */
+      #whatsapp-button {
+        display: none; /* Sembunyikan tombol pada awalnya */
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 18px;
+        background-color: #25d366;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      #whatsapp-button:hover {
+        background-color: #20b958;
+      }
+
+      #footer-id {
+        display: none; /* Sembunyikan footer */
+      }
+    </style>
+  </head>
+  <body>
+    <img src="YourImg.jpg" alt="Foto" />
+    <div class="typing-text" id="typing"></div>
+
+    <!-- Audio dengan autoplay dan loop -->
+    <audio id="background-music" autoplay loop>
+      <source src="Backsound.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+
+    <!-- Tombol WhatsApp -->
+    <button
+      id="whatsapp-button"
+      onclick="window.location.href='https://wa.me/6281344948175?text=😊😊'">
+      Reply to Whatsapp
+    </button>
+    <br />
+    <!-- footer -->
+    <div id="footer-id">
+      <footer>
+        <div class="col-auto">
+          <small>
+            &copy;
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            GabZ
+          </small>
+        </div>
+      </footer>
+      <br />
+    </div>
+    <!-- footer -->
+
+    <script>
+      const texts = [
+        "Ciee yang hari ini ultah...",
+        "Selamat ulang tahun",
+        "Su basar to doa sandiri 😁",
+        "-----------------------------------------------",
+        "Cuman.....",
+        "Semoga di akhir tahun ini",
+        "Tuhan mewujudkan doa-doa yang belum terwujud",
+        "Dan semoga di tahun depan",
+        "Kamu menjadi pribadi yang lebih baik dari sebelumnya",
+        "Untuk kamuu,,",
+        "Happy birthday 🎂🎉",
+      ];
+
+      let index = 0;
+      const typingElement = document.getElementById("typing");
+      const typingSpeed = 100; // Kecepatan mengetik
+      const whatsappButton = document.getElementById("whatsapp-button"); // Tombol WhatsApp
+      const footer = document.getElementById("footer-id"); // Footer
+
+      function scrollToBottom() {
+        typingElement.scrollTop = typingElement.scrollHeight;
+      }
+
+      function typeText() {
+        if (index < texts.length) {
+          const paragraph = document.createElement("p");
+          paragraph.textContent = "";
+          typingElement.appendChild(paragraph);
+          let charIndex = 0;
+
+          function typeChar() {
+            if (charIndex < texts[index].length) {
+              paragraph.textContent += texts[index].charAt(charIndex);
+              charIndex++;
+              scrollToBottom(); // Scroll otomatis saat karakter baru ditambahkan
+              setTimeout(typeChar, typingSpeed);
+            } else {
+              index++;
+              if (index < texts.length) {
+                setTimeout(typeText, 1000);
+              } else {
+                // Tampilkan tombol WhatsApp setelah semua teks selesai diketik
+                whatsappButton.style.display = "block";
+                footer.style.display = "block";
+                scrollToBottom(); // Pastikan scroll ke bawah setelah semua teks selesai
+              }
+            }
+          }
+
+          typeChar();
+        }
+      }
+
+      typeText(); // Mulai animasi mengetik
+    </script>
+  </body>
+</html>
